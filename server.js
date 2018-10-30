@@ -50,7 +50,7 @@ function searchBooks (request, response) {
       console.log('results', results);
       return response.render('pages/searches/show', {items: results})
     })
-    .catch(console.error);
+    // .catch(response.render('pages/error'));
 }
 
 
