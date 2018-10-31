@@ -31,11 +31,12 @@ function newSearch(request, response) {
 }
 
 function Book (data) {
-  this.author = data.authors;
-  this.title = data.title;
-  this.image_url = data.imageLinks.thumbnail;
-  this.description = data.description;
-  this.isbn = `${data.industryIdentifiers[0].type}: ${data.industryIdentifiers[0].identifier}`;
+  this.id = data.id;
+  this.author = data.volumeInfo.authors;
+  this.title = data.volumeInfo.title;
+  this.image_url = data.volumeInfo.imageLinks.thumbnail;
+  this.description = data.volumeInfo.description;
+  this.isbn = `${data.volumeInfo.industryIdentifiers[0].type}: ${data.volumeInfo.industryIdentifiers[0].identifier}`;
 }
 
 function searchBooks (request, response) {
@@ -46,7 +47,7 @@ function searchBooks (request, response) {
   superagent.get(url)
     .then(data => {
     //   console.log(data.body.items);
-      return data.body.items.map(results => new Book(results.volumeInfo))})
+      return data.body.items.map(results => new Book(results))})
     .then(results => {
       console.log('results', results);
       return response.render('pages/searches/show', {items: results})
