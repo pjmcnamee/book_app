@@ -34,7 +34,8 @@ function Book (data) {
   this.author = data.authors;
   this.title = data.title;
   this.image_url = data.imageLinks.thumbnail;
-  this. description = data.description;
+  this.description = data.description;
+  this.isbn = `${data.industryIdentifiers[0].type}: ${data.industryIdentifiers[0].identifier}`;
 }
 
 function searchBooks (request, response) {
