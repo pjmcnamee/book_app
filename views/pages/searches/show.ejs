@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Book Results</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/modules.css">
+    <link rel="stylesheet" href="styles/icons.css">
 </head>
 <body>
     <main>
@@ -14,11 +19,16 @@
                 <p> Author: <%= item.author %></p>
                 <img src="<%= item.image_url %>">
                 <p><%= item.description%></p>
+                <button id="<%=item.id%>" type='button'class='view-details'>View Details</button>
             </section>
         </li>
         <% }) %>
     </ul>
     </main>
-    
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src='js/app.js'></script>
 </body>
 </html>
