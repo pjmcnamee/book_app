@@ -3,11 +3,16 @@
 const express = require('express');
 const cors = require('cors');
 const superagent = require('superagent');
-// const pg = require('pg');
+const pg = require('pg');
+const methodoverride = require('method-override')
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
+
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+client.on('err', err => console.log(err));
 
 const app = express();
 app.use(cors());
@@ -18,8 +23,17 @@ app.set('view engine','ejs');
 
 app.get('/', newSearch);
 app.use(express.urlencoded({extended:true}));
+app.use(methodoverride((req, res) => {
+  if(typeof(req.body) === 'object' && '_method' in req.body) {
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 
 app.post('/searches', searchBooks);
+
+app.put('/', saveBook);
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));
 app.get('/', (req,res) => {
@@ -28,6 +42,16 @@ app.get('/', (req,res) => {
 
 function newSearch(request, response) {
   response.render('pages/index');
+}
+
+function saveBook (request, response) {
+  const SQL = `INSERT INTO books (title, author, image_url, isbn, description) VALUES($1,$2,$3,$4,$5) RETURNING id`
+  const values = Object.values(request.body);
+  client.query(SQL,values)
+}
+
+function detailView () {
+
 }
 
 function Book (data) {
@@ -46,13 +70,11 @@ function searchBooks (request, response) {
   if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`;}
   superagent.get(url)
     .then(data => {
-    //   console.log(data.body.items);
       return data.body.items.map(results => new Book(results))})
     .then(results => {
-      console.log('results', results);
       return response.render('pages/searches/show', {items: results})
     })
-    // .catch(response.render('pages/error'));
+    //TODO: error catch
 }
 
 

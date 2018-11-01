@@ -11,15 +11,23 @@
 <body>
     <main>
         <h4>Search Results</h4>
+
         <ul class="search-results">
          <% items.forEach(item => { %>
         <li>
             <section>
                 <h4> <%= item.title %> </h4>
-                <p> Author: <%= item.author %></p>
                 <img src="<%= item.image_url %>">
-                <p><%= item.description%></p>
-                <button id="<%=item.id%>" type='button'class='view-details'>View Details</button>
+                <p> Author: <%= item.author %></p>
+                <form method="POST" action="/" class="save-form">
+                    <input name="title" value="<%= item.title %>" type="text" >
+                    <input name="author" value="<%= item.author %>" type="text">
+                    <input name="img_url" value="<%= item.image_url %>" type="text">
+                    <input name="isbn" value="<%= item.isbn %>" type="text">
+                    <input name="description" value="<%= item.description%>" type="text">
+                    <input name="_method" value="PUT" type="hidden">
+                  <button class='view-details'>Save Book</button>
+                </form>
             </section>
         </li>
         <% }) %>

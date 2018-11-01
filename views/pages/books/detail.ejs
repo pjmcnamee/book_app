@@ -12,6 +12,16 @@
     <link rel="stylesheet" href="styles/icons.css">
 </head>
 <body>
+
+        <li>
+                <section>
+                    <h4> <%= item.title %> </h4>
+                    <img src="<%= item.image_url %>">
+                    <p> Author: <%= item.author %></p>
+                    <p> ISBN: <%= item.isbn %></p>
+                    <p> Description: <%= item.description %></p>
+                </section>
+            </li>
     
 <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
