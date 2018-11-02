@@ -1,0 +1,23 @@
+#header{
+    border: solid black 1px;
+    color: #fff;
+    background-color: rgb(77, 212, 183);
+    line-height: 2em;
+    border-radius: 5px;
+    font-family: 'Mukta', sans-serif;
+    font-size: 3em;
+    padding-left: 2em;
+}
+
+
+.outer-card{
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+}
+
+.inner-card{
+    background-color: rgb(215, 232, 238);
+
+}
+
