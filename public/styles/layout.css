@@ -1,0 +1,23 @@
+body{
+    background-color: rgb(221, 221, 221);
+}
+
+#header{
+    
+}
+
+.outer-card{
+    margin: 2em;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.inner-card{
+    display:inline-block;
+    width: 80%;
+}
+
+.inner-card img{
+    width: 200px;
+}
