@@ -19,15 +19,8 @@
                 <h4> <%= item.title %> </h4>
                 <img src="<%= item.image_url %>">
                 <p> Author: <%= item.author %></p>
-                <form method="POST" action="/" class="save-form">
-                    <input name="title" value="<%= item.title %>" type="text" >
-                    <input name="author" value="<%= item.author %>" type="text">
-                    <input name="img_url" value="<%= item.image_url %>" type="text">
-                    <input name="isbn" value="<%= item.isbn %>" type="text">
-                    <input name="description" value="<%= item.description%>" type="text">
-                    <input name="_method" value="PUT" type="hidden">
-                  <button class='view-details'>Save Book</button>
-                </form>
+                <a href="/detail/<%= item.id %>" class='view-details'>View Details</a>
+                
             </section>
         </li>
         <% }) %>
