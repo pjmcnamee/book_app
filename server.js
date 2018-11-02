@@ -18,10 +18,9 @@ const app = express();
 app.use(cors());
 
 app.use(express.static('public'));
-
 app.set('view engine','ejs');
 
-app.get('/', newSearch);
+// ======================
 app.use(express.urlencoded({extended:true}));
 app.use(methodoverride((req, res) => {
   if(typeof(req.body) === 'object' && '_method' in req.body) {
@@ -31,27 +30,45 @@ app.use(methodoverride((req, res) => {
   }
 }));
 
+app.post('/', renderHome);
+app.get('/', renderHome);
+app.get('/search', newSearch);
 app.post('/searches', searchBooks);
-
-app.put('/', saveBook);
+app.post('/save', saveBook);
+app.get('/detail/:id', detailView)
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));
-app.get('/', (req,res) => {
-  res.render('pages/index');
-})
 
 function newSearch(request, response) {
-  response.render('pages/index');
+  response.render('pages/searches');
+}
+
+function detailView (request,response) {
+  const SQL = `SELECT * FROM books WHERE id=$1;`;
+  const values = [request.params.id];
+  client.query(SQL,values)
+    .then(result => {
+      console.log(result.rows);
+      response.render('pages/books/detail', {item: result.rows[0]})
+    })
+
 }
 
 function saveBook (request, response) {
-  const SQL = `INSERT INTO books (title, author, image_url, isbn, description) VALUES($1,$2,$3,$4,$5) RETURNING id`
+  const SQL = `INSERT INTO books (title, author, image_url, isbn, description) VALUES($1,$2,$3,$4,$5) RETURNING id;`;
   const values = Object.values(request.body);
   client.query(SQL,values)
+    .then(()=>{
+      response.redirect('/');
+    })
 }
 
-function detailView () {
-
+function renderHome (request, response){
+  const SQL = `SELECT * FROM books;`;
+  client.query(SQL)
+    .then(result => {
+      response.render('pages/searches/show', {items: result.rows});
+    })
 }
 
 function Book (data) {
