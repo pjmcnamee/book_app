@@ -20,6 +20,18 @@
                     <p> Author: <%= item.author %></p>
                     <p> ISBN: <%= item.isbn %></p>
                     <p> Description: <%= item.description %></p>
+                    <form method="POST" action="/change-detail/<%= item.id %>" class="edit-form">
+                        <input name="edits" value="<%= item.title %>" type="text" >
+                        <input name="edits" value="<%= item.author %>" type="text">
+                        <input name="edits" value="<%= item.image_url %>" type="text">
+                        <input name="edits" value="<%= item.isbn %>" type="text">
+                        <input name="edits" value="<%= item.description%>" type="text">
+                      <button class='edit-details'>Edit Details</button>
+                    </form>
+                    <form method="POST" action="/delete" class="save-form">
+                        <input name="_method" value="DELETE" type="hidden">
+                      <button class='view-details'>Delete</button>
+                    </form>
                 </section>
             </li>
     

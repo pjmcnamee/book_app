@@ -36,6 +36,7 @@ app.get('/search', newSearch);
 app.post('/searches', searchBooks);
 app.post('/save', saveBook);
 app.get('/detail/:id', detailView)
+app.post('/change-detail/:id', changedDetail)
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));
 
@@ -43,12 +44,21 @@ function newSearch(request, response) {
   response.render('pages/searches');
 }
 
+function changedDetail (request, response) {
+  const SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, description=$4, bookshelf=$5 WHERE id=${request.params.id};`;
+  const values = request.body.edits;
+  console.log(values);
+  client.query(SQL, values)
+    .then(result => {
+      response.render('pages/books/detail', {item: result.row[0]})
+    })
+}
+
 function detailView (request,response) {
   const SQL = `SELECT * FROM books WHERE id=$1;`;
   const values = [request.params.id];
   client.query(SQL,values)
     .then(result => {
-      console.log(result.rows);
       response.render('pages/books/detail', {item: result.rows[0]})
     })
 
